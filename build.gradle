@@ -1,0 +1,30 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'javax.servlet:javax.servlet-api:3.0.1'
+    
+    compile 'org.eclipse.jetty:jetty-server:9.3.20.v20170531'
+    compile 'org.eclipse.jetty:jetty-webapp:9.3.20.v20170531'
+    compile 'org.eclipse.jetty:jetty-continuation:9.3.20.v20170531'
+    
+    compile 'org.docx4j:docx4j-JAXB-ReferenceImpl:11.1.0'
+    compile 'org.docx4j:docx4j-docx-anon:11.1.0'
+    compile 'org.slf4j:slf4j-api:1.7.26'
+    compile 'org.slf4j:slf4j-log4j12:1.7.26'
+    compile 'com.sun.xml.bind:jaxb-core:2.3.0.1'
+    compile 'com.sun.xml.bind:jaxb-impl:2.3.2'
+    compile 'javax.activation:activation:1.1.1'
+    compile 'com.googlecode.jaxb-namespaceprefixmapper-interfaces:JAXBNamespacePrefixMapper:2.2.4'
+    
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    
+    implementation 'com.google.code.gson:gson:2.8.5'
+}
+
+applicationName = 'hhtcc'
+mainClassName = 'com.bkstorm.mb.Launcher'

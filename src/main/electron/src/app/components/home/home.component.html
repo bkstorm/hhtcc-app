@@ -1,0 +1,147 @@
+<div class="container-fluid">
+  <div class="w-100 mt-4 mb-4 text-center">
+    <img class="thumbnail w-25" src="assets/images/app_logo.jpg" />
+  </div>
+  <form #form="ngForm">
+    <div class="row">
+      <div class="col-sm-12 col-md-6">
+        <div class="form-group row">
+          <strong class="d-block mb-2 col-sm-12 required">
+            {{ "PAGES.HOME.LABELS.PROJECT" | translate }}
+          </strong>
+          <div class="col-sm-12">
+            <input
+              class="form-control"
+              name="project"
+              [(ngModel)]="reportOptions.project"
+              #project="ngModel"
+              placeholder="{{ 'PAGES.HOME.PLACEHOLDERS.PROJECT' | translate }}"
+              required
+              [ngClass]="{
+                'is-invalid': project.dirty && project.errors
+              }"
+            />
+            <div
+              *ngIf="project.dirty && project.errors"
+              class="invalid-feedback"
+            >
+              {{
+                "COMMON.VALIDATION.REQUIRED"
+                  | translate
+                    : { element: "PAGES.HOME.LABELS.PROJECT" | translate }
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <strong class="d-block mb-2 col-sm-12 required">
+            {{ "PAGES.HOME.LABELS.COMPANY" | translate }}
+          </strong>
+          <div class="col-sm-12">
+            <input
+              class="form-control"
+              name="company"
+              [(ngModel)]="reportOptions.company"
+              #company="ngModel"
+              placeholder="{{ 'PAGES.HOME.PLACEHOLDERS.COMPANY' | translate }}"
+              required
+              [ngClass]="{
+                'is-invalid': company.dirty && company.errors
+              }"
+            />
+            <div
+              *ngIf="company.dirty && company.errors"
+              class="invalid-feedback"
+            >
+              {{
+                "COMMON.VALIDATION.REQUIRED"
+                  | translate
+                    : { element: "PAGES.HOME.LABELS.COMPANY" | translate }
+              }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="form-group row"
+          *ngFor="let step of [1, 2, 3, 4]; let i = index"
+        >
+          <strong class="d-block mb-2 col-sm-12 required">
+            {{ "COMMON.STEP_INDEX" | translate: { index: i + 1 } }}
+          </strong>
+          <div class="col-sm-12">
+            <input
+              class="form-control"
+              name="step_{{ i }}"
+              [(ngModel)]="reportOptions.steps[i]"
+              #step="ngModel"
+              placeholder="{{
+                'COMMON.STEP_INDEX' | translate: { index: i + 1 }
+              }}"
+              required
+              [ngClass]="{
+                'is-invalid': step.dirty && step.errors
+              }"
+            />
+            <div *ngIf="step.dirty && step.errors" class="invalid-feedback">
+              {{
+                "COMMON.VALIDATION.REQUIRED"
+                  | translate
+                    : {
+                        element:
+                          "COMMON.STEP_INDEX" | translate: { index: i + 1 }
+                      }
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-6">
+        <div class="form-group row">
+          <strong class="d-block mb-2 col-sm-12 required">
+            {{ "PAGES.HOME.LABELS.INPUT_DIRECTORIES" | translate }}
+          </strong>
+          <div class="col-sm-12">
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="selectDirectories()"
+            >
+              {{ "COMMON.SELECT" | translate }}
+            </button>
+            <ul class="list-group mt-2">
+              <li
+                class="list-group-item"
+                name="selectedDirectories"
+                *ngFor="let directory of reportOptions.selectedDirectories"
+              >
+                {{ directory }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 text-center">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="createDocx()"
+          [disabled]="
+            form.invalid ||
+            !reportOptions.selectedDirectories ||
+            reportOptions.selectedDirectories.length === 0
+          "
+        >
+          <span
+            *ngIf="createDocxLoading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          {{ "PAGES.HOME.BUTTONS.CREATE_DOCX" | translate }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

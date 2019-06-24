@@ -1,0 +1,27 @@
+{
+  "COMMON": {
+    "STEP_INDEX": "Bước {{ index }}",
+    "SELECT": "Chọn",
+    "DIRECTORY": "Thư mục",
+    "VALIDATION": {
+      "REQUIRED": "{{ element }} không được để trống"
+    }
+  },
+  "PAGES": {
+    "HOME": {
+      "TITLE": "App works !",
+      "BUTTONS": {
+        "CREATE_DOCX": "Tạo file docx"
+      },
+      "LABELS": {
+        "PROJECT": "Tên công trình",
+        "COMPANY": "Tên công ty",
+        "INPUT_DIRECTORIES": "Chọn thư mục ảnh"
+      },
+      "PLACEHOLDERS": {
+        "PROJECT": "Dự án ABC",
+        "COMPANY": "Công ty XYZ"
+      }
+    }
+  }
+}
