@@ -88,7 +88,7 @@ public class AppServlet extends HttpServlet {
     }
 
     private TemplateData validate(ReportOptions reportOptions) throws Exception {
-        Pattern directoryPattern = Pattern.compile("(.*)_(\\d{2})_(\\d{2})\\.(\\d{2})\\.(\\d{4})");
+        Pattern directoryPattern = Pattern.compile("(\\d{2})_(\\d{2})\\.(\\d{2})\\.(\\d{4})");
         TemplateData templateData = new TemplateData();
         for (String directoryPath : reportOptions.selectedDirectories) {
             File directory = new File(directoryPath);
@@ -107,11 +107,11 @@ public class AppServlet extends HttpServlet {
                 Date day = new Date();
                 day.project = reportOptions.project;
                 day.company = reportOptions.company;
-                day.vehicle = matcher.group(1);
-                day.totalTime = matcher.group(2);
-                day.day = matcher.group(3);
-                day.month = matcher.group(4);
-                day.year = matcher.group(5);
+                day.vehicle = reportOptions.vehicle;
+                day.totalTime = matcher.group(1);
+                day.day = matcher.group(2);
+                day.month = matcher.group(3);
+                day.year = matcher.group(4);
                 day.firstStep = reportOptions.steps.get(0);
                 day.secondStep = reportOptions.steps.get(1);
                 day.thirdStep = reportOptions.steps.get(2);
@@ -150,7 +150,7 @@ public class AppServlet extends HttpServlet {
                 templateData.dates.add(day);
             } else {
                 throw new Error(ErrorCode.DIRECTORY_NAME_FORMAT, String.format("Thư mục %s không đúng định dạng: %s",
-                        directoryName, "Tên-phương-tiện_Chuyến-lũy-kế_ngày.tháng.năm"));
+                        directoryName, "Số-chuyến-lũy-kế_ngày.tháng.năm"));
             }
         }
         templateData.dates.sort(new Comparator<Date>() {

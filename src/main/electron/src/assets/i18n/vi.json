@@ -2,6 +2,7 @@
   "COMMON": {
     "STEP_INDEX": "Bước {{ index }}",
     "SELECT": "Chọn",
+    "DELETE_ALL": "Xóa tất cả",
     "DIRECTORY": "Thư mục",
     "VALIDATION": {
       "REQUIRED": "{{ element }} không được để trống"
@@ -14,13 +15,17 @@
         "CREATE_DOCX": "Tạo file docx"
       },
       "LABELS": {
+        "BASIC_INFORMATION": "Thông tin chung",
         "PROJECT": "Tên công trình",
         "COMPANY": "Tên công ty",
-        "INPUT_DIRECTORIES": "Chọn thư mục ảnh"
+        "INPUT_DIRECTORIES": "Chọn thư mục ảnh",
+        "VEHICLE": "Phương tiện",
+        "PROCEDURE": "Quy trình"
       },
       "PLACEHOLDERS": {
         "PROJECT": "Dự án ABC",
-        "COMPANY": "Công ty XYZ"
+        "COMPANY": "Công ty XYZ",
+        "VEHICLE": "SG-5452"
       }
     }
   }

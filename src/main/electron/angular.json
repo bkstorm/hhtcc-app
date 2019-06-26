@@ -26,11 +26,14 @@
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "./src/assets/shards-dashboard-lite/styles/shards.min.css",
-              "./src/assets/shards-dashboard-lite/styles/extras.1.1.0.min.css",
+              "./src/assets/fontawesome-free-5.9.0-web/css/all.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/popper.js/dist/umd/popper.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
           },
           "configurations": {
             "dev": {

@@ -9,4 +9,4 @@
 - `cd src/main/electron && npm run electron:windows`
 ## How to run
 - `./gradlew --configure-on-demand -x check run`
-- `cd src/main/electron && npm run`
+- `cd src/main/electron && npm start`

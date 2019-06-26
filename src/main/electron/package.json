@@ -1,6 +1,6 @@
 {
   "name": "HHTCC",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Create docx with docx4j, electron and angular",
   "homepage": "https://github.com/bkstorm/docx-processor",
   "author": {
@@ -32,7 +32,8 @@
     "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:serve-tsc && electron . --serve",
     "electron:local": "npm run build:prod && electron .",
     "electron:linux": "npm run build:prod && electron-builder build --linux",
-    "electron:windows": "npm run build:prod && electron-builder build --windows --ia32 --x64",
+    "electron:x86": "npm run build:prod && electron-builder build --windows --ia32",
+    "electron:x64": "npm run build:prod && electron-builder build --windows --x64",
     "electron:mac": "npm run build:prod && electron-builder build --mac",
     "test": "npm run postinstall:web && ng test",
     "e2e": "npm run build:prod && mocha --timeout 300000 --require ts-node/register e2e/**/*.spec.ts",

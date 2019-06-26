@@ -7,7 +7,7 @@ import { StoreService } from '../../providers/store.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   reportOptions: ReportOptions;
@@ -18,49 +18,93 @@ export class HomeComponent implements OnInit {
     private electronService: ElectronService,
     private storeService: StoreService,
     private zone: NgZone,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
   ) {}
 
   ngOnInit() {
     this.reportOptions = new ReportOptions();
     this.reportOptions.project = this.storeService.get('project');
     this.reportOptions.company = this.storeService.get('company');
+    this.reportOptions.vehicle = this.storeService.get('vehicle');
     this.electronService.ipcRenderer.on(
       'selectedDirectories',
       (event: Electron.IpcMessageEvent, ...args: any[]) => {
         this.zone.run(() => {
-          this.reportOptions.selectedDirectories = args[0];
+          this.reportOptions.selectedDirectories = new Set(
+            Array.from(this.reportOptions.selectedDirectories).concat(args[0]),
+          );
           this.reportOptions.templateFilePath = args[1];
+          if (args[2]) {
+            this.storeService.set('lastWorkingDirectory', args[2]);
+          }
           this.selectDirectoriesLoading = false;
         });
-      }
+      },
+    );
+    this.electronService.ipcRenderer.on(
+      'savedFile',
+      (event: Electron.IpcMessageEvent, ...args: any[]) => {
+        this.storeService.set('lastSavedDirectory', args[0]);
+      },
     );
   }
 
   selectDirectories() {
     this.selectDirectoriesLoading = true;
-    this.electronService.ipcRenderer.send('selectDirectories');
+    this.electronService.ipcRenderer.send(
+      'selectDirectories',
+      this.storeService.get('lastWorkingDirectory'),
+    );
+  }
+
+  deleteAllDirectories() {
+    this.reportOptions.selectedDirectories.clear();
+  }
+
+  deleteDirectory(directory: string) {
+    this.reportOptions.selectedDirectories.delete(directory);
   }
 
   createDocx() {
-    this.storeService.set('project', this.reportOptions.project);
-    this.storeService.set('company', this.reportOptions.company);
+    this.storeService.setEntries([
+      {
+        key: 'project',
+        val: this.reportOptions.project,
+      },
+      {
+        key: 'company',
+        val: this.reportOptions.company,
+      },
+      {
+        key: 'vehicle',
+        val: this.reportOptions.vehicle,
+      },
+    ]);
     this.createDocxLoading = true;
     this.httpClient
-      .post('http://localhost:8080/docx', this.reportOptions)
+      .post('http://localhost:9876/docx', {
+        ...this.reportOptions,
+        selectedDirectories: Array.from(this.reportOptions.selectedDirectories),
+      })
       .subscribe(
         (data: any) => {
           this.createDocxLoading = false;
-          this.electronService.ipcRenderer.send('saveFile', data.filePath);
+          this.electronService.ipcRenderer.send(
+            'saveFile',
+            data.filePath,
+            `${(this.storeService.get('lastSavedDirectory') &&
+              this.storeService.get('lastSavedDirectory') + '/') ||
+              ''}${this.reportOptions.vehicle}.docx`,
+          );
         },
         error => {
           this.createDocxLoading = false;
           this.electronService.ipcRenderer.send('showMessageBox', {
             type: error.error.code === 400 ? 'warning' : 'error',
             title: '',
-            message: error.error.message
+            message: error.error.message,
           });
-        }
+        },
       );
   }
 }

@@ -5,6 +5,6 @@
 
 export const AppConfig = {
   production: false,
-  environment: "DEV",
-  userDataFile: "userData.json"
+  environment: 'DEV',
+  userDataFile: 'userData.json',
 };

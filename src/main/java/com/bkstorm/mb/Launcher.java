@@ -14,7 +14,7 @@ public class Launcher {
         contextHandler.setSessionHandler(new SessionHandler());
         contextHandler.addServlet(new ServletHolder(AppServlet.class), "/*");
 
-        Server embeddedServer = new Server(8080);
+        Server embeddedServer = new Server(9876);
         embeddedServer.setHandler(contextHandler);
 
         try {

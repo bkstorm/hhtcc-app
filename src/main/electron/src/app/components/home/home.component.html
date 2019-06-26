@@ -1,13 +1,44 @@
 <div class="container-fluid">
   <div class="w-100 mt-4 mb-4 text-center">
-    <img class="thumbnail w-25" src="assets/images/app_logo.jpg" />
+    <img class="thumbnail" height="100px" src="assets/images/app_logo.png" />
   </div>
   <form #form="ngForm">
-    <div class="row">
-      <div class="col-sm-12 col-md-6">
+    <div class="card border-success mb-4">
+      <div class="card-header bg-transparent border-success">
+        {{ 'PAGES.HOME.LABELS.BASIC_INFORMATION' | translate }}
+      </div>
+      <div class="card-body text-success">
         <div class="form-group row">
           <strong class="d-block mb-2 col-sm-12 required">
-            {{ "PAGES.HOME.LABELS.PROJECT" | translate }}
+            {{ 'PAGES.HOME.LABELS.VEHICLE' | translate }}
+          </strong>
+          <div class="col-sm-12">
+            <input
+              class="form-control"
+              name="vehicle"
+              [(ngModel)]="reportOptions.vehicle"
+              #vehicle="ngModel"
+              placeholder="{{ 'PAGES.HOME.PLACEHOLDERS.VEHICLE' | translate }}"
+              required
+              [ngClass]="{
+                'is-invalid': vehicle.dirty && vehicle.errors
+              }"
+            />
+            <div
+              *ngIf="vehicle.dirty && vehicle.errors"
+              class="invalid-feedback"
+            >
+              {{
+                'COMMON.VALIDATION.REQUIRED'
+                  | translate
+                    : { element: 'PAGES.HOME.LABELS.VEHICLE' | translate }
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <strong class="d-block mb-2 col-sm-12 required">
+            {{ 'PAGES.HOME.LABELS.PROJECT' | translate }}
           </strong>
           <div class="col-sm-12">
             <input
@@ -26,16 +57,16 @@
               class="invalid-feedback"
             >
               {{
-                "COMMON.VALIDATION.REQUIRED"
+                'COMMON.VALIDATION.REQUIRED'
                   | translate
-                    : { element: "PAGES.HOME.LABELS.PROJECT" | translate }
+                    : { element: 'PAGES.HOME.LABELS.PROJECT' | translate }
               }}
             </div>
           </div>
         </div>
         <div class="form-group row">
           <strong class="d-block mb-2 col-sm-12 required">
-            {{ "PAGES.HOME.LABELS.COMPANY" | translate }}
+            {{ 'PAGES.HOME.LABELS.COMPANY' | translate }}
           </strong>
           <div class="col-sm-12">
             <input
@@ -54,19 +85,81 @@
               class="invalid-feedback"
             >
               {{
-                "COMMON.VALIDATION.REQUIRED"
+                'COMMON.VALIDATION.REQUIRED'
                   | translate
-                    : { element: "PAGES.HOME.LABELS.COMPANY" | translate }
+                    : { element: 'PAGES.HOME.LABELS.COMPANY' | translate }
               }}
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="card border-primary mb-4">
+      <div class="card-header bg-transparent border-primary">
+        {{ 'PAGES.HOME.LABELS.INPUT_DIRECTORIES' | translate }}
+      </div>
+      <div class="card-body">
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <div>
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="selectDirectories()"
+              >
+                <i class="fas fa-folder-plus"></i>
+                {{ 'COMMON.SELECT' | translate }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger ml-2"
+                (click)="deleteAllDirectories()"
+                *ngIf="reportOptions.selectedDirectories?.size"
+              >
+                <i class="far fa-trash-alt"></i>
+                {{ 'COMMON.DELETE_ALL' | translate }}
+              </button>
+            </div>
+            <ul class="list-group mt-2">
+              <li
+                class="list-group-item d-flex align-items-center"
+                name="selectedDirectories"
+                *ngFor="
+                  let directory of reportOptions.selectedDirectories;
+                  let i = index
+                "
+              >
+                <div class="flex-grow-1">
+                  <span class="font-weight-bolder">{{ i + 1 }}. </span
+                  >{{ directory }}
+                </div>
+                <a href="#" (click)="deleteDirectory(directory); (false)"
+                  ><i class="far fa-trash-alt"></i
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card border-warning mb-4">
+      <div
+        class="card-header bg-transparent border-warning procedure"
+        data-toggle="collapse"
+        href="#procedure"
+        role="button"
+        aria-expanded="false"
+        aria-controls="procedure"
+      >
+        {{ 'PAGES.HOME.LABELS.PROCEDURE' | translate }}
+      </div>
+      <div class="card-body text-warning collapse" id="procedure">
         <div
           class="form-group row"
           *ngFor="let step of [1, 2, 3, 4]; let i = index"
         >
           <strong class="d-block mb-2 col-sm-12 required">
-            {{ "COMMON.STEP_INDEX" | translate: { index: i + 1 } }}
+            {{ 'COMMON.STEP_INDEX' | translate: { index: i + 1 } }}
           </strong>
           <div class="col-sm-12">
             <input
@@ -84,39 +177,14 @@
             />
             <div *ngIf="step.dirty && step.errors" class="invalid-feedback">
               {{
-                "COMMON.VALIDATION.REQUIRED"
+                'COMMON.VALIDATION.REQUIRED'
                   | translate
                     : {
                         element:
-                          "COMMON.STEP_INDEX" | translate: { index: i + 1 }
+                          'COMMON.STEP_INDEX' | translate: { index: i + 1 }
                       }
               }}
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-12 col-md-6">
-        <div class="form-group row">
-          <strong class="d-block mb-2 col-sm-12 required">
-            {{ "PAGES.HOME.LABELS.INPUT_DIRECTORIES" | translate }}
-          </strong>
-          <div class="col-sm-12">
-            <button
-              type="button"
-              class="btn btn-success"
-              (click)="selectDirectories()"
-            >
-              {{ "COMMON.SELECT" | translate }}
-            </button>
-            <ul class="list-group mt-2">
-              <li
-                class="list-group-item"
-                name="selectedDirectories"
-                *ngFor="let directory of reportOptions.selectedDirectories"
-              >
-                {{ directory }}
-              </li>
-            </ul>
           </div>
         </div>
       </div>
@@ -125,21 +193,22 @@
       <div class="col-sm-12 text-center">
         <button
           type="button"
-          class="btn btn-primary"
+          class="btn btn-primary mb-4"
           (click)="createDocx()"
           [disabled]="
             form.invalid ||
             !reportOptions.selectedDirectories ||
-            reportOptions.selectedDirectories.length === 0
+            !reportOptions.selectedDirectories?.size
           "
         >
           <span
             *ngIf="createDocxLoading"
-            class="spinner-border spinner-border-sm"
+            class="spinner-border spinner-border-sm mr-2"
             role="status"
             aria-hidden="true"
           ></span>
-          {{ "PAGES.HOME.BUTTONS.CREATE_DOCX" | translate }}
+          <i class="far fa-file-word"></i>
+          {{ 'PAGES.HOME.BUTTONS.CREATE_DOCX' | translate }}
         </button>
       </div>
     </div>
