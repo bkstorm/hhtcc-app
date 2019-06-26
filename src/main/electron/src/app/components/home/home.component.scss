@@ -10,4 +10,14 @@
 
 .procedure {
   cursor: pointer;
+  &[aria-expanded='false'] {
+    .fa-chevron-circle-down {
+      display: none;
+    }
+  }
+  &[aria-expanded='true'] {
+    .fa-chevron-circle-right {
+      display: none;
+    }
+  }
 }
