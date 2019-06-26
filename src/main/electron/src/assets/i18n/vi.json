@@ -19,7 +19,7 @@
         "PROJECT": "Tên công trình",
         "COMPANY": "Tên công ty",
         "INPUT_DIRECTORIES": "Chọn thư mục ảnh",
-        "VEHICLE": "Phương tiện",
+        "VEHICLE": "Tên phương tiện",
         "PROCEDURE": "Quy trình"
       },
       "PLACEHOLDERS": {
