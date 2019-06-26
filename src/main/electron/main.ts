@@ -181,7 +181,10 @@ try {
           if (destPath) {
             fs.copyFile(sourcePath, destPath, error => {
               if (error) {
-                // TODO throw error
+                dialog.showMessageBox({
+                  type: 'error',
+                  message: error.message,
+                });
               }
               event.sender.send('savedFile', path.dirname(destPath));
             });
