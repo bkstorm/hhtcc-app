@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h4 class="modal-title text-success">
+    <i class="far fa-check-circle"></i>
+    {{ 'PAGES.CONFIRM_DIALOG.TITLE' | translate }}
+  </h4>
+  <button
+    type="button"
+    class="close"
+    aria-label="Close"
+    (click)="activeModal.dismiss()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>{{ message }}</p>
+</div>
+<div class="modal-footer justify-content-center">
+  <button
+    type="button"
+    class="btn btn-outline-success"
+    (click)="activeModal.close()"
+    ngbAutofocus
+  >
+    {{ 'COMMON.BUTTONS.YES' | translate }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="activeModal.dismiss()"
+  >
+    {{ 'COMMON.BUTTONS.NO' | translate }}
+  </button>
+</div>

@@ -4,6 +4,11 @@
     "SELECT": "Chọn",
     "DELETE_ALL": "Xóa tất cả",
     "DIRECTORY": "Thư mục",
+    "BUTTONS": {
+      "CLOSE": "Đóng",
+      "NO": "Không",
+      "YES": "Có"
+    },
     "VALIDATION": {
       "REQUIRED": "{{ element }} không được để trống"
     }
@@ -26,7 +31,22 @@
         "PROJECT": "Dự án ABC",
         "COMPANY": "Công ty XYZ",
         "VEHICLE": "SG-5452"
+      },
+      "TOOLTIPS": {
+        "SORT_ASC": "Sắp xếp cũ nhất -> mới nhất",
+        "SORT_DESC": "Sắp xếp mới nhất -> cũ nhất",
+        "SORT_USER": "Sắp xếp tự do"
+      },
+      "VALIDATIONS": {
+        "DIRECTORY_NOT_MATCH": "Tên thư mục không đúng định dạng: Số-chuyến-lũy-kế_ngày.tháng.năm",
+        "INVALIDA_DIRECTORY_ORDER": "Thư mục chưa được sắp xếp theo thời gian, bạn có muốn tiếp tục?"
       }
+    },
+    "ERROR_DIALOG": {
+      "TITLE": "Lỗi"
+    },
+    "CONFIRM_DIALOG": {
+      "TITLE": "Xác nhận"
     }
   }
 }

@@ -11,11 +11,11 @@ export class ReportOptions {
   company: string;
   vehicle: string;
   steps: string[];
-  selectedDirectories: Set<string>;
+  selectedDirectories: Array<string>;
   templateFilePath: string;
 
   constructor(steps: string[] = _.cloneDeep(DEFAULT_STEPS)) {
     this.steps = steps;
-    this.selectedDirectories = new Set();
+    this.selectedDirectories = [];
   }
 }
