@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.3.0
+* Drag and drop directories in list
+* Allow users to order directories by date
+* Validate directories at Angular
+* bug: closing window and reopening on Mac OS kill java server.
+
 ## 0.2.1
 * Fix bug: Can't show icon in taskbar (windows 10, windows 7)
 * Fix UI: add arrow to `Quy trình`
