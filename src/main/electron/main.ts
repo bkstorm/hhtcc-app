@@ -6,8 +6,7 @@ import {
   ipcMain,
   IpcMessageEvent,
   dialog,
-  remote,
-  ipcRenderer,
+  Menu,
 } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
@@ -17,6 +16,94 @@ let win, serve;
 const commandArgs = process.argv.slice(1);
 serve = commandArgs.some(val => val === '--serve');
 let serverProcess;
+
+function createMenu() {
+  const template = [
+    // { role: 'appMenu' }
+    ...(process.platform === 'darwin'
+      ? [
+          {
+            label: app.getName(),
+            submenu: [
+              { role: 'about' },
+              { type: 'separator' },
+              { role: 'services' },
+              { type: 'separator' },
+              { role: 'hide' },
+              { role: 'hideothers' },
+              { role: 'unhide' },
+              { type: 'separator' },
+              { role: 'quit' },
+            ],
+          },
+        ]
+      : []),
+    // { role: 'fileMenu' }
+    {
+      label: 'File',
+      submenu: [
+        process.platform === 'darwin' ? { role: 'close' } : { role: 'quit' },
+      ],
+    },
+    // { role: 'editMenu' }
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        ...(process.platform === 'darwin'
+          ? [
+              { role: 'pasteAndMatchStyle' },
+              { role: 'delete' },
+              { role: 'selectAll' },
+              { type: 'separator' },
+              {
+                label: 'Speech',
+                submenu: [{ role: 'startspeaking' }, { role: 'stopspeaking' }],
+              },
+            ]
+          : [{ role: 'delete' }, { type: 'separator' }, { role: 'selectAll' }]),
+      ],
+    },
+    // { role: 'viewMenu' }
+    {
+      label: 'View',
+      submenu: [
+        { role: 'reload' },
+        { role: 'forcereload' },
+        { type: 'separator' },
+        { role: 'resetzoom' },
+        { role: 'zoomin' },
+        { role: 'zoomout' },
+        { type: 'separator' },
+        { role: 'togglefullscreen' },
+      ],
+    },
+    // { role: 'windowMenu' }
+    {
+      label: 'Window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'zoom' },
+        ...(process.platform === 'darwin'
+          ? [
+              { type: 'separator' },
+              { role: 'front' },
+              { type: 'separator' },
+              { role: 'window' },
+            ]
+          : [{ role: 'close' }]),
+      ],
+    },
+  ];
+
+  const menu = Menu.buildFromTemplate(template as any);
+  Menu.setApplicationMenu(menu);
+}
 
 function createWindow() {
   const electronScreen = screen;
@@ -51,21 +138,6 @@ function createWindow() {
   if (serve) {
     win.webContents.openDevTools();
   }
-
-  win.on('close', e => {
-    if (serverProcess) {
-      e.preventDefault();
-      // kill Java executable
-      const kill = require('tree-kill');
-      kill(serverProcess.pid, 'SIGTERM', function() {
-        console.log('Server process killed');
-
-        serverProcess = null;
-
-        win.close();
-      });
-    }
-  });
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -104,10 +176,10 @@ try {
       requestPromise.get('http://localhost:9876').then(
         () => {
           console.log('Server started!');
+          createMenu();
           createWindow();
         },
         error => {
-          console.log(error);
           console.log('Waiting for the server start ...');
           setTimeout(() => {
             startUp();
@@ -125,6 +197,19 @@ try {
     // to stay active until the user quits explicitly with Cmd + Q
     if (process.platform !== 'darwin') {
       app.quit();
+    }
+  });
+
+  app.on('will-quit', event => {
+    if (serverProcess) {
+      event.preventDefault();
+      // kill Java executable
+      const kill = require('tree-kill');
+      kill(serverProcess.pid, 'SIGTERM', function() {
+        console.log('Server process killed');
+        serverProcess = null;
+        app.exit(0);
+      });
     }
   });
 
@@ -181,10 +266,8 @@ try {
           if (destPath) {
             fs.copyFile(sourcePath, destPath, error => {
               if (error) {
-                dialog.showMessageBox({
-                  type: 'error',
-                  message: error.message,
-                });
+                event.sender.send('error', error.message || error);
+                return;
               }
               event.sender.send('savedFile', path.dirname(destPath));
             });
@@ -193,14 +276,6 @@ try {
       );
     },
   );
-
-  ipcMain.on('showMessageBox', (event: IpcMessageEvent, args: any) => {
-    dialog.showMessageBox({
-      type: args.type,
-      message: args.message,
-      detail: args.detail,
-    });
-  });
 } catch (e) {
   // Catch Error
   // throw e;
