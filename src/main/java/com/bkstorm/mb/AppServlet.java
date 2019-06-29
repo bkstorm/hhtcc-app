@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -116,7 +114,6 @@ public class AppServlet extends HttpServlet {
                 day.secondStep = reportOptions.steps.get(1);
                 day.thirdStep = reportOptions.steps.get(2);
                 day.fourthStep = reportOptions.steps.get(3);
-
                 for (final File image : directory.listFiles()) {
                     String imageName = FilenameUtils.getBaseName(image.getName());
                     String imageBase64 = ImageUtils.toBase64(image);
@@ -153,18 +150,6 @@ public class AppServlet extends HttpServlet {
                         directoryName, "Số-chuyến-lũy-kế_ngày.tháng.năm"));
             }
         }
-        templateData.dates.sort(new Comparator<Date>() {
-            @Override
-            public int compare(Date date1, Date date2) {
-                Calendar calendar1 = Calendar.getInstance();
-                calendar1.set(Integer.parseInt(date1.year), Integer.parseInt(date1.month) - 1,
-                        Integer.parseInt(date1.day));
-                Calendar calendar2 = Calendar.getInstance();
-                calendar2.set(Integer.parseInt(date2.year), Integer.parseInt(date2.month) - 1,
-                        Integer.parseInt(date2.day));
-                return calendar1.compareTo(calendar2);
-            }
-        });
         return templateData;
     }
 
