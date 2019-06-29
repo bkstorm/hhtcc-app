@@ -1,6 +1,6 @@
 {
   "name": "HHTCC",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Create docx with docx4j, electron and angular",
   "homepage": "https://github.com/bkstorm/docx-processor",
   "author": {
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.800.3",
-    "@angular/animations": "^8.0.1",
+    "@angular/animations": "^8.0.3",
     "@angular/cdk": "^8.0.1",
     "@angular/cli": "8.0.3",
     "@angular/common": "8.0.1",
@@ -50,6 +50,7 @@
     "@angular/core": "8.0.1",
     "@angular/forms": "8.0.1",
     "@angular/language-service": "8.0.1",
+    "@angular/material": "^8.0.1",
     "@angular/platform-browser": "8.0.1",
     "@angular/platform-browser-dynamic": "8.0.1",
     "@angular/router": "8.0.1",
@@ -74,6 +75,7 @@
     "karma-coverage-istanbul-reporter": "2.0.4",
     "karma-jasmine": "2.0.1",
     "karma-jasmine-html-reporter": "1.4.0",
+    "lodash": "^4.17.11",
     "mocha": "^6.1.4",
     "npm-run-all": "4.1.5",
     "rxjs": "6.5.2",
@@ -89,10 +91,10 @@
     "node": ">=10.9.0"
   },
   "dependencies": {
+    "@ng-bootstrap/ng-bootstrap": "^5.0.0-rc.1",
     "bootstrap": "^4.3.1",
     "hazardous": "^0.3.0",
     "jquery": "^3.4.1",
-    "lodash": "^4.17.11",
     "minimal-request-promise": "^1.5.0",
     "popper.js": "^1.15.0",
     "tree-kill": "^1.2.1"
