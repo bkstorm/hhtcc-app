@@ -17,12 +17,12 @@ export class StoreService {
     return this.data[key];
   }
 
-  set(key: string, val: string) {
+  set(key: string, val: any) {
     this.data[key] = val;
     this.electronService.fs.writeFileSync(this.path, JSON.stringify(this.data));
   }
 
-  setEntries(entries: { key: string; val: string }[]) {
+  setEntries(entries: { key: string; val: any }[]) {
     entries.forEach(entry => {
       this.data[entry.key] = entry.val;
     });

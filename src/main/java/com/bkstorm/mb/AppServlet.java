@@ -93,12 +93,14 @@ public class AppServlet extends HttpServlet {
             String directoryName = directory.getName();
             Matcher matcher = directoryPattern.matcher(directoryName);
             if (matcher.matches()) {
-                Set<String> fileNames = Arrays.asList(directory.listFiles()).stream()
-                        .map(file -> FilenameUtils.getBaseName(file.getName())).collect(Collectors.toSet());
-                for (int i = 1; i <= 8; i++) {
-                    if (!fileNames.contains(String.valueOf(i))) {
-                        throw new Error(ErrorCode.FILE_NAME_FORMAT,
-                                String.format("Thư mục %s thiếu ảnh số %s", directoryName, i));
+                if (reportOptions.imageCheckingStatus) {
+                    Set<String> fileNames = Arrays.asList(directory.listFiles()).stream()
+                            .map(file -> FilenameUtils.getBaseName(file.getName())).collect(Collectors.toSet());
+                    for (int i = 1; i <= 8; i++) {
+                        if (!fileNames.contains(String.valueOf(i))) {
+                            throw new Error(ErrorCode.FILE_NAME_FORMAT,
+                                    String.format("Thư mục %s thiếu ảnh số %s", directoryName, i));
+                        }
                     }
                 }
 

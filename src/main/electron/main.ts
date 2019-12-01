@@ -4,9 +4,11 @@ import {
   BrowserWindow,
   screen,
   ipcMain,
-  IpcMessageEvent,
   dialog,
   Menu,
+  IpcMainEvent,
+  OpenDialogOptions,
+  SaveDialogOptions,
 } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
@@ -223,57 +225,58 @@ try {
 
   ipcMain.on(
     'selectDirectories',
-    (event: IpcMessageEvent, lastSavedDirectory: string) => {
-      dialog.showOpenDialog(
-        {
-          defaultPath: lastSavedDirectory,
-          properties: ['openDirectory', 'multiSelections'],
-        },
-        filePaths => {
-          if (filePaths && filePaths.length) {
-            event.sender.send(
-              'selectedDirectories',
-              filePaths,
-              path
-                .join(__dirname, 'template/template.docx')
-                .replace('app.asar', 'app.asar.unpacked'),
-              path.dirname(filePaths[0]),
-            );
-          }
-        },
-      );
+    (event: IpcMainEvent, lastSavedDirectory: string) => {
+      const dialogOptions: OpenDialogOptions = {
+        properties: ['openDirectory', 'multiSelections'],
+      };
+      if (lastSavedDirectory) {
+        Object.assign(dialogOptions, { defaultPath: lastSavedDirectory });
+      }
+      dialog.showOpenDialog(dialogOptions).then(({ filePaths }) => {
+        console.log(
+          path
+            .join(__dirname, 'template/template.docx')
+            .replace('app.asar', 'app.asar.unpacked'),
+        );
+        if (filePaths && filePaths.length) {
+          event.sender.send(
+            'selectedDirectories',
+            filePaths,
+            path.join(__dirname, 'template/template.docx'),
+            path.dirname(filePaths[0]),
+          );
+        }
+      });
     },
   );
 
   ipcMain.on(
     'saveFile',
-    (
-      event: IpcMessageEvent,
-      sourcePath: string,
-      lastSavedDirectory: string,
-    ) => {
-      dialog.showSaveDialog(
-        {
+    (event: IpcMainEvent, sourcePath: string, lastSavedDirectory: string) => {
+      const dialogOptions: SaveDialogOptions = {
+        filters: [
+          {
+            name: 'docx',
+            extensions: ['docx'],
+          },
+        ],
+      };
+      if (lastSavedDirectory) {
+        Object.assign(dialogOptions, {
           defaultPath: lastSavedDirectory,
-          filters: [
-            {
-              name: 'docx',
-              extensions: ['docx'],
-            },
-          ],
-        },
-        destPath => {
-          if (destPath) {
-            fs.copyFile(sourcePath, destPath, error => {
-              if (error) {
-                event.sender.send('error', error.message || error);
-                return;
-              }
-              event.sender.send('savedFile', path.dirname(destPath));
-            });
-          }
-        },
-      );
+        });
+      }
+      dialog.showSaveDialog(dialogOptions).then(({ filePath }) => {
+        if (filePath) {
+          fs.copyFile(sourcePath, filePath, error => {
+            if (error) {
+              event.sender.send('error', error.message || error);
+              return;
+            }
+            event.sender.send('savedFile', path.dirname(filePath));
+          });
+        }
+      });
     },
   );
 } catch (e) {

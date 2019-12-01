@@ -8,10 +8,7 @@ import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { ErrorDialogComponent } from '../../shared/components/error-dialog/error-dialog.component';
-import { crashReporter } from 'electron';
-import { invalid } from '@angular/compiler/src/render3/view/util';
 import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
-import { timingSafeEqual } from 'crypto';
 
 enum SORT_TYPE {
   ASC,
@@ -45,9 +42,12 @@ export class HomeComponent implements OnInit {
     this.reportOptions.project = this.storeService.get('project');
     this.reportOptions.company = this.storeService.get('company');
     this.reportOptions.vehicle = this.storeService.get('vehicle');
+    this.reportOptions.imageCheckingStatus = this.storeService.get(
+      'imageCheckingStatus',
+    );
     this.electronService.ipcRenderer.on(
       'selectedDirectories',
-      (event: Electron.IpcMessageEvent, ...args: any[]) => {
+      (event: Electron.IpcRendererEvent, ...args: any[]) => {
         this.zone.run(() => {
           this.reportOptions.selectedDirectories.push(...args[0]);
           this.reportOptions.templateFilePath = args[1];
@@ -61,13 +61,13 @@ export class HomeComponent implements OnInit {
     );
     this.electronService.ipcRenderer.on(
       'savedFile',
-      (event: Electron.IpcMessageEvent, ...args: any[]) => {
+      (event: Electron.IpcRendererEvent, ...args: any[]) => {
         this.storeService.set('lastSavedDirectory', args[0]);
       },
     );
     this.electronService.ipcRenderer.on(
       'error',
-      (event: Electron.IpcMessageEvent, ...args: any[]) => {
+      (event: Electron.IpcRendererEvent, ...args: any[]) => {
         const modalRef = this.modalService.open(ErrorDialogComponent, {
           centered: true,
           scrollable: true,
@@ -238,6 +238,10 @@ export class HomeComponent implements OnInit {
       {
         key: 'vehicle',
         val: this.reportOptions.vehicle,
+      },
+      {
+        key: 'imageCheckingStatus',
+        val: this.reportOptions.imageCheckingStatus,
       },
     ]);
     this.createDocxLoading = true;

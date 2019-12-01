@@ -25,7 +25,8 @@
         "COMPANY": "Tên công ty",
         "INPUT_DIRECTORIES": "Chọn thư mục ảnh",
         "VEHICLE": "Tên phương tiện",
-        "PROCEDURE": "Quy trình"
+        "PROCEDURE": "Quy trình",
+        "CHECK_FULL_IMAGES": "Kiểm tra ảnh"
       },
       "PLACEHOLDERS": {
         "PROJECT": "Dự án ABC",
@@ -35,7 +36,8 @@
       "TOOLTIPS": {
         "SORT_ASC": "Sắp xếp cũ nhất -> mới nhất",
         "SORT_DESC": "Sắp xếp mới nhất -> cũ nhất",
-        "SORT_USER": "Sắp xếp tự do"
+        "SORT_USER": "Sắp xếp tự do",
+        "CHECK_FULL_IMAGES": "Kiểm tra thư mục có đầy đủ ảnh hay không?"
       },
       "VALIDATIONS": {
         "DIRECTORY_NOT_MATCH": "Tên thư mục không đúng định dạng: Số-chuyến-lũy-kế_ngày.tháng.năm",

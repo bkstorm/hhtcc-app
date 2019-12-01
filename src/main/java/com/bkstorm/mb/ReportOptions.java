@@ -16,6 +16,7 @@ public class ReportOptions {
     public String project;
     public String company;
     public String vehicle;
+    public boolean imageCheckingStatus;
     public List<String> steps;
     public List<String> selectedDirectories;
     public String templateFilePath;

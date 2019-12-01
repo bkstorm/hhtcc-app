@@ -141,6 +141,24 @@
                   ngbTooltip="{{ 'PAGES.HOME.TOOLTIPS.SORT_USER' | translate }}"
                 ></i>
               </button>
+              <div class="form-check ml-2">
+                <input
+                  name="checkbox-files"
+                  class="form-check-input"
+                  type="checkbox"
+                  [(ngModel)]="reportOptions.imageCheckingStatus"
+                  id="checkbox-files"
+                />
+                <label
+                  class="form-check-label"
+                  for="checkbox-files"
+                  ngbTooltip="{{
+                    'PAGES.HOME.TOOLTIPS.CHECK_FULL_IMAGES' | translate
+                  }}"
+                >
+                  {{ 'PAGES.HOME.LABELS.CHECK_FULL_IMAGES' | translate }}
+                </label>
+              </div>
             </div>
             <ul
               class="list-group mt-2"
