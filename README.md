@@ -5,7 +5,7 @@
 ## How to deploy
 - `gradle distZip`
 - `gradle installDist`
-- `cp -rf build/install/hhtcc src/main/electron/hhtcc`
+- `cp -rf build/install/hhtcc/ src/main/electron/hhtcc`
 - `cd src/main/electron && npm run electron:windows`
 ## How to run
 - `./gradlew --configure-on-demand -x check run`
