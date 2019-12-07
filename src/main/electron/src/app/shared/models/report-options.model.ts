@@ -10,7 +10,7 @@ export class ReportOptions {
   project: string;
   company: string;
   vehicle: string;
-  imageCheckingStatus: boolean;
+  isImageCheckingOn: boolean;
   steps: string[];
   selectedDirectories: Array<string>;
   templateFilePath: string;

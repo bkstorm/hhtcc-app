@@ -93,7 +93,7 @@ public class AppServlet extends HttpServlet {
             String directoryName = directory.getName();
             Matcher matcher = directoryPattern.matcher(directoryName);
             if (matcher.matches()) {
-                if (reportOptions.imageCheckingStatus) {
+                if (reportOptions.isImageCheckingOn) {
                     Set<String> fileNames = Arrays.asList(directory.listFiles()).stream()
                             .map(file -> FilenameUtils.getBaseName(file.getName())).collect(Collectors.toSet());
                     for (int i = 1; i <= 8; i++) {

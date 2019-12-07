@@ -42,8 +42,8 @@ export class HomeComponent implements OnInit {
     this.reportOptions.project = this.storeService.get('project');
     this.reportOptions.company = this.storeService.get('company');
     this.reportOptions.vehicle = this.storeService.get('vehicle');
-    this.reportOptions.imageCheckingStatus = this.storeService.get(
-      'imageCheckingStatus',
+    this.reportOptions.isImageCheckingOn = this.storeService.get(
+      'isImageCheckingOn',
     );
     this.electronService.ipcRenderer.on(
       'selectedDirectories',
@@ -240,8 +240,8 @@ export class HomeComponent implements OnInit {
         val: this.reportOptions.vehicle,
       },
       {
-        key: 'imageCheckingStatus',
-        val: this.reportOptions.imageCheckingStatus,
+        key: 'isImageCheckingOn',
+        val: this.reportOptions.isImageCheckingOn,
       },
     ]);
     this.createDocxLoading = true;
