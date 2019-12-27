@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.3.2
+* Fix bug: wrong path of the fourth image.
+
+## 0.3.1
+* Doesn't require all images
+
 ## 0.3.0
 * Drag and drop directories in list
 * Allow users to order directories by date

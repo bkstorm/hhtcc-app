@@ -233,11 +233,6 @@ try {
         Object.assign(dialogOptions, { defaultPath: lastSavedDirectory });
       }
       dialog.showOpenDialog(dialogOptions).then(({ filePaths }) => {
-        console.log(
-          path
-            .join(__dirname, 'template/template.docx')
-            .replace('app.asar', 'app.asar.unpacked'),
-        );
         if (filePaths && filePaths.length) {
           event.sender.send(
             'selectedDirectories',
