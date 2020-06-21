@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
     private httpClient: HttpClient,
     private modalService: NgbModal,
     private translateService: TranslateService,
+    private ngZone: NgZone,
   ) {}
 
   ngOnInit() {
@@ -59,6 +60,7 @@ export class HomeComponent implements OnInit {
         });
       },
     );
+
     this.electronService.ipcRenderer.on(
       'savedFile',
       (event: Electron.IpcRendererEvent, ...args: any[]) => {
@@ -73,6 +75,16 @@ export class HomeComponent implements OnInit {
           scrollable: true,
         });
         modalRef.componentInstance.message = args[0];
+      },
+    );
+
+    this.electronService.ipcRenderer.on(
+      'gotTemplateFilePath',
+      (event: Electron.IpcRendererEvent, ...args: any[]) => {
+        this.reportOptions.templateFilePath = args[0];
+        this.ngZone.run(() => {
+          this.createDocx();
+        });
       },
     );
   }
@@ -180,7 +192,7 @@ export class HomeComponent implements OnInit {
 
     // validate order of directory
     let previousSortType: SORT_TYPE | null = null;
-    const times = this.reportOptions.selectedDirectories.map(directoryPath =>
+    const times = this.reportOptions.selectedDirectories.map((directoryPath) =>
       this.parseDateFromDirectory(directoryPath),
     );
     let invalidOrder = false;
@@ -222,7 +234,10 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    this.createDocx();
+    this.electronService.ipcRenderer.send(
+      'getTemplateFilePath',
+      this.reportOptions.templateType,
+    );
   }
 
   createDocx() {
@@ -256,12 +271,14 @@ export class HomeComponent implements OnInit {
           this.electronService.ipcRenderer.send(
             'saveFile',
             data.filePath,
-            `${(this.storeService.get('lastSavedDirectory') &&
-              this.storeService.get('lastSavedDirectory') + '/') ||
-              ''}${this.reportOptions.vehicle}.docx`,
+            `${
+              (this.storeService.get('lastSavedDirectory') &&
+                this.storeService.get('lastSavedDirectory') + '/') ||
+              ''
+            }${this.reportOptions.vehicle}.docx`,
           );
         },
-        error => {
+        (error) => {
           this.createDocxLoading = false;
           const modalRef = this.modalService.open(ErrorDialogComponent, {
             centered: true,

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.bkstorm.mb;
+package com.bkstorm.mb.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,41 +18,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author hoangnv
  */
-@XmlRootElement
+@XmlRootElement(name = "templateData")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TemplateData implements Serializable {
+public class Template08Data implements Serializable {
 
     private static final long serialVersionUID = 948615844163379356L;
     @XmlElementWrapper(name = "dates")
     @XmlElement(name = "date")
-    List<Date> dates;
+    public List<Date08> dates;
 
-    public TemplateData() {
-        this.dates = new ArrayList<Date>();
+    public Template08Data() {
+        this.dates = new ArrayList<Date08>();
     }
-}
-
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-class Date {
-
-    String project;
-    String company;
-    String vehicle;
-    String day;
-    String month;
-    String year;
-    String totalTime;
-    String firstStep;
-    String secondStep;
-    String thirdStep;
-    String fourthStep;
-    String firstImage;
-    String secondImage;
-    String thirdImage;
-    String fourthImage;
-    String fifthImage;
-    String sixthImage;
-    String seventhImage;
-    String eighthImage;
 }

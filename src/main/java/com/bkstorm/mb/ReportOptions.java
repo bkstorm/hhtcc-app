@@ -12,7 +12,6 @@ import java.util.List;
  * @author hoangnv
  */
 public class ReportOptions {
-
     public String project;
     public String company;
     public String vehicle;
@@ -20,4 +19,5 @@ public class ReportOptions {
     public List<String> steps;
     public List<String> selectedDirectories;
     public String templateFilePath;
+    public TemplateType templateType;
 }

@@ -9,14 +9,16 @@ import {
   IpcMainEvent,
   OpenDialogOptions,
   SaveDialogOptions,
+  IpcMain,
 } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import * as fs from 'fs';
+import { TEMPLATE_TYPE } from './src/app/shared/models/report-options.model';
 
 let win, serve;
 const commandArgs = process.argv.slice(1);
-serve = commandArgs.some(val => val === '--serve');
+serve = commandArgs.some((val) => val === '--serve');
 let serverProcess;
 
 function createMenu() {
@@ -25,7 +27,7 @@ function createMenu() {
     ...(process.platform === 'darwin'
       ? [
           {
-            label: app.getName(),
+            label: app.name,
             submenu: [
               { role: 'about' },
               { type: 'separator' },
@@ -173,7 +175,7 @@ try {
   // initialization and is ready to create browser windows.
   // Some APIs can only be used after this event occurs.
   app.on('ready', () => {
-    const startUp = function() {
+    const startUp = function () {
       const requestPromise = require('minimal-request-promise');
       requestPromise.get('http://localhost:9876').then(
         () => {
@@ -181,7 +183,7 @@ try {
           createMenu();
           createWindow();
         },
-        error => {
+        (error) => {
           console.log('Waiting for the server start ...');
           setTimeout(() => {
             startUp();
@@ -202,12 +204,12 @@ try {
     }
   });
 
-  app.on('will-quit', event => {
+  app.on('will-quit', (event) => {
     if (serverProcess) {
       event.preventDefault();
       // kill Java executable
       const kill = require('tree-kill');
-      kill(serverProcess.pid, 'SIGTERM', function() {
+      kill(serverProcess.pid, 'SIGTERM', function () {
         console.log('Server process killed');
         serverProcess = null;
         app.exit(0);
@@ -237,11 +239,29 @@ try {
           event.sender.send(
             'selectedDirectories',
             filePaths,
-            path.join(__dirname, 'template/template.docx'),
             path.dirname(filePaths[0]),
           );
         }
       });
+    },
+  );
+
+  ipcMain.on(
+    'getTemplateFilePath',
+    (event: IpcMainEvent, templateType: TEMPLATE_TYPE) => {
+      let filePath;
+      switch (templateType) {
+        case 'TEMPLATE_08':
+          filePath = path.join(__dirname, 'template/template_08.docx');
+          break;
+        case 'TEMPLATE_12':
+          filePath = path.join(__dirname, 'template/template_12.docx');
+          break;
+        default:
+          filePath = path.join(__dirname, 'template/template_08.docx');
+          break;
+      }
+      event.sender.send('gotTemplateFilePath', filePath);
     },
   );
 
@@ -263,7 +283,7 @@ try {
       }
       dialog.showSaveDialog(dialogOptions).then(({ filePath }) => {
         if (filePath) {
-          fs.copyFile(sourcePath, filePath, error => {
+          fs.copyFile(sourcePath, filePath, (error) => {
             if (error) {
               event.sender.send('error', error.message || error);
               return;

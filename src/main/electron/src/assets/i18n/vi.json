@@ -26,7 +26,10 @@
         "INPUT_DIRECTORIES": "Chọn thư mục ảnh",
         "VEHICLE": "Tên phương tiện",
         "PROCEDURE": "Quy trình",
-        "CHECK_FULL_IMAGES": "Kiểm tra ảnh"
+        "CHECK_FULL_IMAGES": "Kiểm tra ảnh",
+        "TEMPLATE": "Mẫu văn bản",
+        "TEMPLATE_08": "Loại 8 ảnh",
+        "TEMPLATE_12": "Loại 12 ảnh"
       },
       "PLACEHOLDERS": {
         "PROJECT": "Dự án ABC",
