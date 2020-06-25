@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.5.2
+
+- fix: validate images of 12 images template.
+- feat: save last selected template type.
+
 ## 0.5.1
 
 - fix: add one more row from the second loop of the template.
