@@ -51,9 +51,8 @@ export class HomeComponent implements OnInit {
       (event: Electron.IpcRendererEvent, ...args: any[]) => {
         this.zone.run(() => {
           this.reportOptions.selectedDirectories.push(...args[0]);
-          this.reportOptions.templateFilePath = args[1];
-          if (args[2]) {
-            this.storeService.set('lastWorkingDirectory', args[2]);
+          if (args[1]) {
+            this.storeService.set('lastWorkingDirectory', args[1]);
           }
           this.sortDirectories();
           this.selectDirectoriesLoading = false;
