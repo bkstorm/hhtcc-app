@@ -3,14 +3,12 @@ os:
   - osx
 language: node_js
 node_js:
-  - '11'
+  - '12'
   - '10'
 dist: xenial
 sudo: required
 services:
   - xvfb
-addons:
-  chrome: stable
 before_script:
   - export DISPLAY=:99.0
 install:

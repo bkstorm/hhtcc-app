@@ -9,7 +9,6 @@ import {
   IpcMainEvent,
   OpenDialogOptions,
   SaveDialogOptions,
-  IpcMain,
 } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
