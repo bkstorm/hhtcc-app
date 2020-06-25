@@ -46,6 +46,8 @@ export class HomeComponent implements OnInit {
     this.reportOptions.isImageCheckingOn = this.storeService.get(
       'isImageCheckingOn',
     );
+    this.reportOptions.templateType =
+      this.storeService.get('lastSelectedTemplateType') || 'TEMPLATE_08';
     this.electronService.ipcRenderer.on(
       'selectedDirectories',
       (event: Electron.IpcRendererEvent, ...args: any[]) => {
@@ -259,6 +261,10 @@ export class HomeComponent implements OnInit {
       {
         key: 'isImageCheckingOn',
         val: this.reportOptions.isImageCheckingOn,
+      },
+      {
+        key: 'lastSelectedTemplateType',
+        val: this.reportOptions.templateType,
       },
     ]);
     this.createDocxLoading = true;

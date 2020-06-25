@@ -22,6 +22,5 @@ export class ReportOptions {
   constructor(steps: string[] = _.cloneDeep(DEFAULT_STEPS)) {
     this.steps = steps;
     this.selectedDirectories = [];
-    this.templateType = 'TEMPLATE_08';
   }
 }
