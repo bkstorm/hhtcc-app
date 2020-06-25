@@ -1,6 +1,6 @@
 {
   "name": "hhtcc",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Create docx with docx4j, electron and angular",
   "homepage": "https://github.com/bkstorm/docx-processor",
   "author": {

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.5.1
+
+- fix: add one more row from the second loop of the template.
+- fix: can't create docx if folders are not sorted.
+
 ## 0.5.0
 
 - Upgrade to electron 9 and angular 9.
