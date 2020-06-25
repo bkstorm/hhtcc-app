@@ -222,7 +222,10 @@ export class HomeComponent implements OnInit {
       modalRef.result
         .then(
           () => {
-            this.createDocx();
+            this.electronService.ipcRenderer.send(
+              'getTemplateFilePath',
+              this.reportOptions.templateType,
+            );
           },
           () => {
             // do nothing
