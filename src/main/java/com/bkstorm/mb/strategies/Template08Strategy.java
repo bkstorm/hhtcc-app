@@ -23,7 +23,7 @@ public class Template08Strategy implements Strategy<Template08Data> {
 
     @Override
     public Template08Data validate(ReportOptions reportOptions) throws Exception {
-        Pattern directoryPattern = Pattern.compile("(\\d{2})_(\\d{2})\\.(\\d{2})\\.(\\d{4})");
+        Pattern directoryPattern = Pattern.compile("(\\d{2,3})_(\\d{2})\\.(\\d{2})\\.(\\d{4})");
         Template08Data templateData = new Template08Data();
         for (String directoryPath : reportOptions.selectedDirectories) {
             File directory = new File(directoryPath);
